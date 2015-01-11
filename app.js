@@ -3,6 +3,8 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var turn = require('./controllers/TurnControllers.js');
 
+var port = (process.env.PORT || 5000);
+
 var clients = [];
 
 var turnQueue = [];
@@ -53,8 +55,8 @@ io.sockets.on('connection', function(socket){
 
 });
 
-http.listen(5000, function(){
-  console.log('listening on *:5000');
+http.listen(port, function(){
+  console.log('listening on *:' + port);
 });
 
 
