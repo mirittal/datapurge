@@ -13,6 +13,8 @@
       #messages li:nth-child(odd) { background: #eee; }
     </style>
 
+    <link rel="stylesheet" href="/css/styles.css">
+
 
 
 </head>
@@ -25,14 +27,80 @@
 
   </div>
 
+
+<div class="camera_controls  controls_wrapper">
+
+    <div class="user_controls">
+      <img src="/images/takeControl.png" class="request">
+    </div>
+
+    <h2 class="controls">IN CONTROL!</h2>
+
+    <button class="controls" data-camera="move=up" id="Aup"><img src="images/upArrow.png" alt="up" style="width:18px"></button>
+
+    <button class="controls" data-camera="move=down" id="Adown"><img src="/images/downArrow.png" alt="down"  style="width:18px"></button>
+
+    <br><br>
+
+    <button class="controls" data-camera="move=left" id="Aleft"><img src="/images/leftArrow.png" alt="left"></button>
+
+    <button class="controls" data-camera="move=right" id="Aright"><img src="/images/rightArrow.png" alt="right"></button>
+
+    <br><br>
+
+    <button  class="controls" data-camera="rzoom=2500" id="Azoomin"><img src="/images/plus.png" alt="zoom in" style="width:18px"></button>
+
+    <button  class="controls" data-camera="rzoom=-2500" id="Azoomout"><img src="/images/minus.png" alt="zoomout" style="width:18px"></button>
+
+    <br><br>
+  </div>
+
+
+  <div class="motor_controls controls_wrapper">
+
+    <div class="push_butt">
+      <a class="butt controls" data-motor-on="1" data-motor-off="2">PUSH</a>
+    </div>
+
+    <div class="push_butt" style="margin-top:35px">
+      <a class="butt controls" data-motor-on="3" data-motor-off="4">PUSH</a>
+    </div>
+
+    <div class="push_butt" style="margin-top:45px">
+      <a class="butt controls" data-motor-on="5" data-motor-off="6">PUSH</a>
+    </div>
+
+    <div class="push_butt" style="margin-top:85px">
+      <a class="butt controls" data-motor-on="7" data-motor-off="8">PUSH</a>
+    </div>
+
+
+  </div>
+
+  
+
+  
+
+  <button id="stop_control">STOP CONTROL</button>
+  <iframe src="about:blank" id="controller" style="width:200px; height:200px; position:absolute; top:4000px; left: -400px;" frameborder="0"></iframe>
+
+  <!-- <div class="aux">
+
+    
+
+    
+  <div> -->
+
+  
+
     <ul id="messages"></ul>
     <form action="">
       <input id="m" autocomplete="off" /><button>Send</button>
     </form>
 
 
-    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
-<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+<script src="//cdn.socket.io/socket.io-1.2.0.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.js"></script>
 <script>
   var socket = io();
   $('form').submit(function(){
@@ -97,5 +165,9 @@ function waitingTimer(text, ms, dot) {
 }
 */
 </script>
+
+
+  <script src="js/controls.js"></script>
+
   </body>
 </html>

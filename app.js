@@ -1,4 +1,5 @@
-var app = require('express')();
+var express = require('express');
+var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var turn = require('./controllers/TurnControllers.js');
@@ -14,8 +15,10 @@ var activeTurn = false;
 var TURN_TIME = 15000;
 
 app.get('/', function(req, res){
-  res.sendFile(__dirname + '/client/index.html');
+  res.sendFile(__dirname + '/views/index.html');
 });
+
+app.use(express.static(__dirname + '/public'));
 
 io.sockets.on('connection', function(socket){
 	//clients[socket.id] = socket;
