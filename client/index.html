@@ -1,0 +1,101 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Socket.IO chat</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font: 13px Helvetica, Arial;  }
+      form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
+      form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
+      form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+      #messages { list-style-type: none; margin: 0; padding: 0; }
+      #messages li { padding: 5px 10px; }
+      #messages li:nth-child(odd) { background: #eee; }
+    </style>
+
+
+
+</head>
+  <body>
+
+  <div> status: <span id="st" style="font-size:20px; text-transform:uppercase; color:red;"></span>
+<br>
+
+<button onclick="javascript:socket.emit('join', '33');">request control</button>
+
+  </div>
+
+    <ul id="messages"></ul>
+    <form action="">
+      <input id="m" autocomplete="off" /><button>Send</button>
+    </form>
+
+
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+<script>
+  var socket = io();
+  $('form').submit(function(){
+    socket.emit('chat message', $('#m').val());
+    $('#m').val('');
+    return false;
+  });
+  socket.on('chat message', function(msg){
+    $('#messages').append($('<li>').text(msg));
+  });
+
+  var rand = Math.floor(Math.random() *1000);
+
+  socket.emit('join', {email: "user1@" + rand});
+  
+  socket.on("my-turn", function(t) {
+      $("#st").html("THE CONTROL IS YOURS");
+  });
+
+  socket.on("lose-turn", function(t) {
+      $("#st").html("CONTROL OVER");
+  });
+
+   socket.on("turn-ack", function(time) {
+      $("#st").html("waiting...." + time);
+  });
+
+/*
+var io = require('socket.io-client')(config.io);
+
+  io.on('your-turn', function() {
+  giveTurn();
+});
+
+io.on('lose-turn', function() {
+  removeTurn();
+});
+
+io.on('turn-ack', function(time) {
+  waitingTimer('Waiting for turn', time, true);
+});
+
+function waitingTimer(text, ms, dot) {
+  var dots = '';
+  turnInt = setInterval(function() {
+    ms -= 1000;
+    var seconds = Math.floor(ms / 1000);
+    if (seconds <= 0) {
+      clearInterval(turnInt);
+      $('.turn-timer').html('');
+    } else {
+      if (dots.length < 3)
+        dots += '.';
+      else
+        dots = '';
+
+      var str = text + ' in ~' + seconds + ' seconds';
+      if (dot) str += dots;
+      $('.turn-timer').html(str);
+    }
+  }, 1000);
+}
+*/
+</script>
+  </body>
+</html>
