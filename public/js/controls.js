@@ -1,3 +1,27 @@
+
+  var socket = io();
+
+  var rand = Math.floor(Math.random() *1000);
+
+  
+  
+  socket.on("my-turn", function(t) {
+      	$("#st").html("THE CONTROL IS YOURS");
+      	$("#controller").attr("src", dest + "0");	
+		$(".controls, #stop_control").show();
+		$(".user_controls").hide();
+		window.setTimeout(function() {  turnAllOff();}, 130000)
+  });
+
+  socket.on("lose-turn", function(t) {
+      $("#st").html("CONTROL OVER");
+      turnAllOff();
+  });
+
+   socket.on("turn-ack", function(time) {
+      $("#st").html("waiting...." + time);
+  });
+
 $(function(){
 
 	$(".controls").on("click" , function(){
@@ -19,10 +43,8 @@ $(function(){
 	})
 
 	$(".user_controls").click(function(){
-		$("#controller").attr("src", dest + "0");	
-		$(".controls, #stop_control").show();
-		$(this).hide();
-		window.setTimeout(function() {  turnAllOff();}, 130000)
+		socket.emit('join', {email: "user1@" + rand});
+		
 	})
 
 	 $("#stop_control").click(function(){

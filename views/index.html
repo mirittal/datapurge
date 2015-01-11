@@ -76,8 +76,14 @@
   <iframe src="about:blank" id="controller" style="width:200px; height:200px; position:absolute; top:4000px; left: -400px;" frameborder="0"></iframe>
 
   <!-- <div class="aux">
+TODOOOOO
 
-    
+
+add secret way to pause control from all users (ryan/admin mode)
+add timer to the page to know how long left 
+beautify queue notification
+sort out disconnect and redis
+
 
     
   <div> -->
@@ -93,31 +99,7 @@
 <script src="//cdn.socket.io/socket.io-1.2.0.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.js"></script>
 <script>
-  var socket = io();
-  $('form').submit(function(){
-    socket.emit('chat message', $('#m').val());
-    $('#m').val('');
-    return false;
-  });
-  socket.on('chat message', function(msg){
-    $('#messages').append($('<li>').text(msg));
-  });
 
-  var rand = Math.floor(Math.random() *1000);
-
-  socket.emit('join', {email: "user1@" + rand});
-  
-  socket.on("my-turn", function(t) {
-      $("#st").html("THE CONTROL IS YOURS");
-  });
-
-  socket.on("lose-turn", function(t) {
-      $("#st").html("CONTROL OVER");
-  });
-
-   socket.on("turn-ack", function(time) {
-      $("#st").html("waiting...." + time);
-  });
 
 /*
 var io = require('socket.io-client')(config.io);
