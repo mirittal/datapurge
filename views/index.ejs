@@ -11,10 +11,12 @@
 </head>
   <body>
 
-  <div> status: <span id="st" style="font-size:20px; text-transform:uppercase; color:red;"></span>
+  <div> status: #{title}<span id="st" style="font-size:20px; text-transform:uppercase; color:red;"></span>
+
+    
 <br>
 
-<button onclick="javascript:socket.emit('join', '33');">request control</button>
+<button onclick="javascript:socket.emit('join', '33');"><%= admin %> request control</button>
 
   </div>
 

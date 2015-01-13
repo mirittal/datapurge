@@ -4,7 +4,7 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var turn = require('./controllers/TurnControllers.js');
 
-var port = (process.env.PORT || 5000);
+var port = (process.env.PORT || 3000);
 
 var clients = [];
 
@@ -14,8 +14,13 @@ var activeTurn = false;
 
 var TURN_TIME = 15000;
 
+// set the view engine to ejs
+app.set('view engine', 'ejs');
+
 app.get('/', function(req, res){
-  res.sendFile(__dirname + '/views/index.html');
+  //res.sendFile(__dirname + '/views/index.ejs', { title: 'Ninja Store' });
+  res.render(__dirname + '/views/index', { admin: req.query.admin });
+
 });
 
 app.use(express.static(__dirname + '/public'));
