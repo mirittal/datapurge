@@ -9,23 +9,25 @@
 
 
 </head>
-  <body>
+  <body id='<%= (admin)? "admin" : "" %>' >
 
-  <div> status: #{title}<span id="st" style="font-size:20px; text-transform:uppercase; color:red;"></span>
+  <div> status: #{title}
 
     
-<br>
-
-<button onclick="javascript:socket.emit('join', '33');"><%= admin %> request control</button>
-
+<% if (admin) { %>
+    <button id="admin-control" data-state="0">block users control</button>
+    
+<% } %>>
   </div>
 
 
 <div class="camera_controls  controls_wrapper">
-
+    
     <div class="user_controls">
       <img src="/images/takeControl.png" class="request">
     </div>
+
+    <div id="message"></div>
 
     <h2 class="controls">IN CONTROL!</h2>
 
@@ -92,11 +94,13 @@ sort out disconnect and redis
 
   
 
-    <ul id="messages"></ul>
-    <form action="">
-      <input id="m" autocomplete="off" /><button>Send</button>
+    
+    <form action="" id="messages">
+      <input id="m" autocomplete="off" /><a id="admin-message">Send Message to All Users</a>
+      <br><br>
+      <input id="rm" autocomplete="off" /><a id="admin-reset-message">Send Reset</a>
     </form>
-
+    
 
 <script src="//cdn.socket.io/socket.io-1.2.0.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.js"></script>

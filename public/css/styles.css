@@ -13,16 +13,17 @@ body {
 	position: relative;
 	margin-left:-15px;
 	margin-top:-25px;
+	position: relative;
 }
 
 .camera_controls button.controls {
 	background-color:#fff;
 	position:absolute;
 	display: none;
+	width:44px;
 }
 
 .controls {
-	
 	display: none;
 }
 
@@ -42,9 +43,22 @@ h2 {
 	margin:0 0 0 10px;
 }
 
+#message {
+	font-size: 12px;
+	font-weight:bold;
+	background-color: #fff;
+	color:#000;
+	padding: 1px 8px;
+	position: absolute;
+	top:0;
+	left:0;
+	width:100%;
+	text-align:center;
+	text-transform: uppercase;
+}
+
 
 button {
-	width: 44px;
 	height:44px;
 	border-radius: 25px;
 	font-weight:bold;
@@ -201,3 +215,7 @@ button.disabled:hover {
   box-shadow: inset rgba(0,0,0,.5) 0px 5px 10px;
 }
 
+#admin-control { z-index: 999; display: blcok; cursor: pointer;position: relative;}
+#admin .user_controls, #messages { display: none !important;}
+#admin .controls, #admin #messages{display: block !important;}
+ #messages a { color:#FFF;}

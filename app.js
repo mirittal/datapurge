@@ -6,21 +6,23 @@ var turn = require('./controllers/TurnControllers.js');
 
 var port = (process.env.PORT || 3000);
 
-var clients = [];
 
+
+
+/* ---- queue specific vars ----- */
+var clients = [];
 var turnQueue = [];
 var activeTurn = false;
-//var redis = require('./redis');//.emu();
+//var redis = require('redis').io();
 
-var TURN_TIME = 15000;
+var TURN_TIME = 25000;
+/* ------ end  queue specific vars --------- */
 
-// set the view engine to ejs
+
 app.set('view engine', 'ejs');
 
 app.get('/', function(req, res){
-  //res.sendFile(__dirname + '/views/index.ejs', { title: 'Ninja Store' });
   res.render(__dirname + '/views/index', { admin: req.query.admin });
-
 });
 
 app.use(express.static(__dirname + '/public'));
@@ -28,33 +30,54 @@ app.use(express.static(__dirname + '/public'));
 io.sockets.on('connection', function(socket){
 	//clients[socket.id] = socket;
 	
- 	socket.on('chat message', function(msg){
-    	io.emit('chat message', msg);
+ 	  socket.on('admin-message', function(msg){
+    	io.emit('message-from-doc', msg);
   	});
 
+    socket.on('reset-all', function(msg){
+      io.emit('reset', msg);
+    });
+
   	socket.on('join', function (data) {
-	    socket.join(data.email); // We are using room of socket io
+	    //socket.join(data.email); // We are using room of socket io
 	    turnQueue.push(socket.id);
+      console.log("join queue: " + JSON.stringify(turnQueue))
     	checkQueue(true);
 	 });
 
+
+    //admin control
+    socket.on('take-control', function (data) {
+      turnQueue.unshift(socket.id);
+      checkQueue(true, true);
+   });
+
+    //admin release
+    socket.on('release-control', function (data) {
+      ADMIN_MODE = false;
+      activeTurn = false;
+      io.in(current_socket_id).emit('lose-turn');
+      sendMessageToQueue();
+      checkQueue(false); 
+
+   });
+
   	 socket.on('disconnect', function () {
         console.log('DISCONNECTED!!! ' +socket.id);
+        console.log("before disconnect: " + JSON.stringify(turnQueue))
         var index;
-        for (var i=0; i<=turnQueue.length; i++) {
+        for (var i=0; i<turnQueue.length; i++) {
         	console.log("t: " + turnQueue[i])
         	if(turnQueue[i] == socket.id) {
-        		//turnQueue.splice(i, 1);
+        		turnQueue.splice(i, 1);
+            
         		index = i;
         		console.log(i)
         		break;
         	}
         }
-      /*  for (var i = index; i<turnQueue.length; i++) {
-        	var time = turnQueue.length * TURN_TIME;
-    		var sockid = turnQueue[i];
-   			io.in(sockid).emit('turn-ack', "please wait " + time + " "  + i + " before");
-        }*/
+        console.log("after disconnect: " + JSON.stringify(turnQueue))
+        sendMessageToQueue();
         
         
     });
@@ -67,29 +90,59 @@ http.listen(port, function(){
   console.log('listening on *:' + port);
 });
 
+var ADMIN_MODE = false;
+var current_socket_id = "";
 
-function checkQueue(newReq) {
+
+function checkQueue(newReq, isAdmin) {
   //var io = require('socket.io-emitter')(redis, {key: 'xpemu'});
+  console.log("queue: " + JSON.stringify(turnQueue))
+
+  if (!activeTurn && isAdmin) 
+    ADMIN_MODE = true;
 
   if (!activeTurn && turnQueue.length >= 1) {
     activeTurn = true;
-    var sockid = turnQueue.shift();
-    //var sockid = clients.shift();
-    console.log("sid: " + sockid)
-    
-    console.log("BB " + turnQueue.length)
-    
-    io.in(sockid).emit('my-turn',TURN_TIME);
+    current_socket_id = turnQueue.shift();
+    sendMessageToQueue();
+    console.log("current_socket_id: " + current_socket_id + "-- queue length: " + turnQueue.length)
+      
+    io.in(current_socket_id).emit('my-turn',TURN_TIME);
 
-    setTimeout(function() {
-      io.emit('lose-turn');
-      activeTurn = false;
-      checkQueue(false);    
-	}, TURN_TIME);
+    if(!ADMIN_MODE) {
+        console.log("timeout for current sock " + current_socket_id)
+        setTimeout(function() {
+          io.in(current_socket_id).emit('lose-turn');
+          activeTurn = false;
+          checkQueue(false);    
+  	   }, TURN_TIME);
+    } else {
+        sendMessageToQueue("please wait - doctor is in control");
+    }
 
   } else if (newReq) {
-    	var time = turnQueue.length * TURN_TIME;
-    	var sockid = turnQueue[turnQueue.length - 1];
-    	io.in(sockid).emit('turn-ack', "please wait " + time + " "  + turnQueue.length + " before");
+      if(isAdmin) {
+        ADMIN_MODE = true;
+        var sockid = turnQueue[turnQueue.length - 1];
+        io.in(sockid).emit('turn-ack', "control will be yours soon... ");
+      } else {
+      	var sockid = turnQueue[turnQueue.length - 1];
+        console.log("new req queue: " + JSON.stringify(turnQueue))
+        if (ADMIN_MODE)
+          io.in(sockid).emit('turn-ack', "please wait - doctor is in control");
+        else  
+      	   io.in(sockid).emit('turn-ack', "Estimated wait time less than " + turnQueue.length + " minutes");
+      }
   }
+}
+
+
+function sendMessageToQueue(msg) {
+    for (var i = 0; i<turnQueue.length; i++) {
+          var sockid = turnQueue[i];
+          if(msg)
+            io.in(sockid).emit('turn-ack', msg);
+          else  
+            io.in(sockid).emit('turn-ack', "Estimated wait time less than " + (i+1) + " minutes");
+    }
 }
