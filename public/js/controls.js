@@ -106,5 +106,5 @@ function turnAllOff() {
 	})
 }
 
-var dest = "http://78.173.239.40:8282/?"
-var cam = "http://78.173.239.40:8080/axis-cgi/com/ptz.cgi?"
+var dest = "http://68.173.239.40:8282/?"
+var cam = "http://68.173.239.40:8080/axis-cgi/com/ptz.cgi?"
