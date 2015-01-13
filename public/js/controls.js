@@ -106,5 +106,5 @@ function turnAllOff() {
 	})
 }
 
-var dest = "http://31downdatapurge.ddns.net:8282/?"
-var cam = "http://31downdatapurge.ddns.net:8080/axis-cgi/com/ptz.cgi?"
+var dest = "http://gibney280.no-ip.org:8282/?"
+var cam = "http://gibney280.no-ip.org:8080/axis-cgi/com/ptz.cgi?"
