@@ -3,6 +3,7 @@
 
   var rand = Math.floor(Math.random() *1000);
 
+  var isAdmin = false;
   
   
   socket.on("my-turn", function(t) {
@@ -29,27 +30,40 @@
 		$(".user_controls").show();
    });
 
+   socket.on("status", function(msg) {
+   		$("#message").html(msg)
+   })
+
    socket.on("message-from-doc", function(msg) {
    		$("#message").html(msg);
    });
 
 $(function(){
 
-	$(".controls").on("click" , function(){
-		if(!$(this).hasClass('active')){
+	if( $("#admin").length > 0 )
+		isAdmin = true;
 
-			var c = $(this).attr("data-motor-on");
-			var m = $(this).attr("data-camera");
+	$(".controls").on("click" , function(){
+		var butt = $(this);
+		var c = butt.attr("data-motor-on");
+
+		if(!butt.hasClass('active')){	
+			var m = butt.attr("data-camera");
 			if (typeof c != "undefined") {
 				$("#controller").attr("src", dest + c);	
-				$(this).addClass("active").text("OOOH");
+				butt.addClass("active").text("OOOH");
 			} else if (typeof m != "undefined") {
 				$("#controller").attr("src", cam + m);
+				if (!isAdmin && butt.attr("id").indexOf("zoom") == -1) {
+					butt.addClass("active");
+					window.setTimeout(function(){ butt.removeClass("active") }, 20000)
+				}
 			}		
 			
 		} else {
-			turnMotorOff($(this));
-			
+			if (typeof c != "undefined") {
+				turnMotorOff($(this));
+			}
 		}
 	})
 
@@ -85,6 +99,11 @@ $(function(){
 		socket.emit('reset-all', $("#rm").val());
 	})
 	
+	$("#admin-control-status").on("click", function(){
+		socket.emit('get-status');
+	})
+
+
 });
 
 

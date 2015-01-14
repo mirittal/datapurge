@@ -52,6 +52,10 @@ io.sockets.on('connection', function(socket){
       checkQueue(true, true);
    });
 
+    socket.on('get-status', function (data) {
+      io.in(socket.id).emit('status', turnQueue.length + " waiting for control");
+   });
+
     //admin release
     socket.on('release-control', function (data) {
       ADMIN_MODE = false;
