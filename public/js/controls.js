@@ -9,6 +9,7 @@
       	$("#message").html("THE CONTROL IS YOURS");
       	$("#controller").attr("src", dest + "0");	
 		$(".controls, #stop_control").show();
+		
 		//$(".user_controls").hide();
 		//window.setTimeout(function() {  turnAllOff();}, 130000)
   });
