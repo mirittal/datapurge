@@ -117,7 +117,7 @@ function checkQueue(newReq, isAdmin) {
           checkQueue(false);    
   	   }, TURN_TIME);
     } else {
-        sendMessageToQueue("please wait - doctor is in control");
+        sendMessageToQueue("Please wait - doctor is in control");
     }
 
   } else if (newReq) {

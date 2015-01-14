@@ -2,11 +2,13 @@
 <html>
   <head>
     <title>CONTROL!!!! PURGE ME</title>
-    
+    <link rel='stylesheet' id='ls-google-fonts-css' href='http://fonts.googleapis.com/css?family=Lato:100,300,regular,700,900%7COpen+Sans:300%7CIndie+Flower:regular%7COswald:300,regular,700&#038;subset=latin%2Clatin-ext' type='text/css' media='all'/>
 
+    <link rel='stylesheet' id='open-sans-css' href='//fonts.googleapis.com/css?family=Open+Sans%3A300italic%2C400italic%2C600italic%2C300%2C400%2C600&#038;subset=latin%2Clatin-ext&#038;ver=4.1' type='text/css' media='all'/>
+   
     <link rel="stylesheet" href="/css/styles.css">
 
-
+   
 
 </head>
   <body id='<%= (admin)? "admin" : "" %>' >
@@ -25,7 +27,7 @@
 
     <div id="message"></div>
 
-    <h2 class="controls">IN CONTROL!</h2>
+    <h2 class="controls">In Control!</h2>
 
     <button class="controls" data-camera="move=up" id="Aup"><img src="images/upArrow.png" alt="up" style="width:18px"></button>
 
@@ -44,6 +46,8 @@
     <button  class="controls" data-camera="rzoom=-2500" id="Azoomout"><img src="/images/minus.png" alt="zoomout" style="width:18px"></button>
 
     <br><br>
+    
+   
   </div>
 
 
@@ -74,20 +78,6 @@
 
   <button id="stop_control">STOP CONTROL</button>
   <iframe src="about:blank" id="controller" style="width:200px; height:200px; position:absolute; top:4000px; left: -400px;" frameborder="0"></iframe>
-
-  <!-- <div class="aux">
-TODOOOOO
-
-
-add secret way to pause control from all users (ryan/admin mode)
-add timer to the page to know how long left 
-beautify queue notification
-sort out disconnect and redis
-
-
-    
-  <div> -->
-
   
 
     
@@ -98,47 +88,81 @@ sort out disconnect and redis
     </form>
     
 
+<div class="countdown countdown-container container">
+    <div class="clock row">
+        <div class="clock-item clock-days countdown-time-value col-sm-6 col-md-3">
+            <div class="wrap">
+                <div class="inner">
+                    <div id="canvas-days" class="clock-canvas"></div>
+
+                    <div class="text">
+                        <p class="val">0</p>
+                        <p class="type-days type-time">DAYS</p>
+                    </div><!-- /.text -->
+                </div><!-- /.inner -->
+            </div><!-- /.wrap -->
+        </div><!-- /.clock-item -->
+
+        <div class="clock-item clock-hours countdown-time-value col-sm-6 col-md-3">
+            <div class="wrap">
+                <div class="inner">
+                    <div id="canvas-hours" class="clock-canvas"></div>
+
+                    <div class="text">
+                        <p class="val">0</p>
+                        <p class="type-hours type-time">HOURS</p>
+                    </div><!-- /.text -->
+                </div><!-- /.inner -->
+            </div><!-- /.wrap -->
+        </div><!-- /.clock-item -->
+
+        <div class="clock-item clock-minutes countdown-time-value col-sm-6 col-md-3">
+            <div class="wrap">
+                <div class="inner">
+                    <div id="canvas-minutes" class="clock-canvas"></div>
+
+                    <div class="text">
+                        <p class="val">0</p>
+                        <p class="type-minutes type-time">MINUTES</p>
+                    </div><!-- /.text -->
+                </div><!-- /.inner -->
+            </div><!-- /.wrap -->
+        </div><!-- /.clock-item -->
+
+        <div class="clock-item clock-seconds countdown-time-value col-sm-6 col-md-3">
+            <div class="wrap">
+                <div class="inner">
+                    <div id="canvas-seconds" class="clock-canvas"></div>
+
+                    <div class="text">
+                        <p class="val">0</p>
+                        <p class="type-seconds type-time">SECONDS</p>
+                    </div><!-- /.text -->
+                </div><!-- /.inner -->
+            </div><!-- /.wrap -->
+        </div><!-- /.clock-item -->
+    </div><!-- /.clock -->
+</div><!-- /.countdown-wrapper -->
+
+
+
 <script src="//cdn.socket.io/socket.io-1.2.0.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.js"></script>
-<script>
 
+<script type="text/javascript" src="js/lib/kinetic.js"></script>
+<script type="text/javascript" src="js/lib/jquery.final-countdown.js"></script>
+<script type="text/javascript">
+  var seconds = Math.floor(Date.now() / 1000);
+  alert(seconds)
+  e_time = seconds  + 60;
 
-/*
-var io = require('socket.io-client')(config.io);
+  alert(e_time)
+  $('.countdown').final_countdown({
+        'start': seconds,
+        'end': e_time,
+        'now': seconds//1387461319  
 
-  io.on('your-turn', function() {
-  giveTurn();
-});
-
-io.on('lose-turn', function() {
-  removeTurn();
-});
-
-io.on('turn-ack', function(time) {
-  waitingTimer('Waiting for turn', time, true);
-});
-
-function waitingTimer(text, ms, dot) {
-  var dots = '';
-  turnInt = setInterval(function() {
-    ms -= 1000;
-    var seconds = Math.floor(ms / 1000);
-    if (seconds <= 0) {
-      clearInterval(turnInt);
-      $('.turn-timer').html('');
-    } else {
-      if (dots.length < 3)
-        dots += '.';
-      else
-        dots = '';
-
-      var str = text + ' in ~' + seconds + ' seconds';
-      if (dot) str += dots;
-      $('.turn-timer').html(str);
-    }
-  }, 1000);
-}
-*/
+  });
 </script>
 
 

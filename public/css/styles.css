@@ -1,5 +1,5 @@
 body {
-	background-color: #121212;
+	background-color: #121212 !important;
 	font-family: "Open Sans", "Helvetica Neue",Helvetica;
 }
 
@@ -34,13 +34,14 @@ body {
 h2 {
 	color:#FFF;
 	font-size:24px;
-	font-weight: normal;
+	font-weight: bold;
 	text-align:center;
 	display:none;
 	position: relative;
 	top:20px;
 	width:100%;
 	margin:0 0 0 10px;
+
 }
 
 #message {
@@ -221,3 +222,64 @@ button.disabled:hover {
 #admin .controls, #admin #messages{display: block !important;}
  #messages a { color:#FFF; cursor: pointer; font-size: 12px;}
  #messages input {margin-right:5px;}
+
+
+ /* timer */
+
+
+ .clock-minutes, .clock-hours, .clock-days { position: absolute; top:-5000; left:-5000;}
+ 
+.countdown-container {
+	position: relative;
+	top: 50%;
+	-webkit-transform: translateY(-50%);
+	-moz-transform: translateY(-50%);
+	transform: translateY(-50%);
+
+}
+
+.clock-item .inner {
+	height: 0px;
+	padding-bottom: 100%;
+	position: relative;	
+	width: 100%;
+}
+
+.clock-canvas {
+	background-color: rgba(255, 255, 255, .1);
+	border-radius: 50%;
+	height: 0px;
+	padding-bottom: 100%;
+}
+
+.text {
+	color: #fff;	
+	font-size: 30px;
+	font-weight: bold;	
+	margin-top: -50px;
+	position: absolute;
+	top: 50%;
+	text-align: center;
+	text-shadow: 1px 1px 1px rgba(0, 0, 0, 1);
+	width: 100%;
+}
+
+.text .val {
+	font-size: 50px;
+}
+
+.text .type-time {
+	font-size: 20px;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+	.clock-item {
+		margin-bottom: 30px;		
+	}
+}
+
+@media (max-width: 767px) {
+	.clock-item {
+		margin: 0px 30px 30px 30px;
+	}
+}
