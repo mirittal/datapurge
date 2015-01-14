@@ -215,7 +215,9 @@ button.disabled:hover {
   box-shadow: inset rgba(0,0,0,.5) 0px 5px 10px;
 }
 
-#admin-control { z-index: 999; display: blcok; cursor: pointer;position: relative;}
+#admin-control { z-index: 999; display: block; cursor: pointer;position: relative; margin: 2px 10px;}
+#admin .camera_controls { margin-top: 0; }
 #admin .user_controls, #messages { display: none !important;}
 #admin .controls, #admin #messages{display: block !important;}
- #messages a { color:#FFF;}
+ #messages a { color:#FFF; cursor: pointer; font-size: 12px;}
+ #messages input {margin-right:5px;}

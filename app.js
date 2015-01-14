@@ -15,7 +15,7 @@ var turnQueue = [];
 var activeTurn = false;
 //var redis = require('redis').io();
 
-var TURN_TIME = 25000;
+var TURN_TIME = 60000;
 /* ------ end  queue specific vars --------- */
 
 
@@ -124,12 +124,12 @@ function checkQueue(newReq, isAdmin) {
       if(isAdmin) {
         ADMIN_MODE = true;
         var sockid = turnQueue[turnQueue.length - 1];
-        io.in(sockid).emit('turn-ack', "control will be yours soon... ");
+        io.in(sockid).emit('turn-ack', "The control will be yours soon... ");
       } else {
       	var sockid = turnQueue[turnQueue.length - 1];
         console.log("new req queue: " + JSON.stringify(turnQueue))
         if (ADMIN_MODE)
-          io.in(sockid).emit('turn-ack', "please wait - doctor is in control");
+          io.in(sockid).emit('turn-ack', "Please wait - doctor is in control");
         else  
       	   io.in(sockid).emit('turn-ack', "Estimated wait time less than " + turnQueue.length + " minutes");
       }

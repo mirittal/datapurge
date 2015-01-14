@@ -11,14 +11,10 @@
 </head>
   <body id='<%= (admin)? "admin" : "" %>' >
 
-  <div> status: #{title}
-
-    
-<% if (admin) { %>
+  <% if (admin) { %>
     <button id="admin-control" data-state="0">block users control</button>
     
-<% } %>>
-  </div>
+  <% }  %>
 
 
 <div class="camera_controls  controls_wrapper">
