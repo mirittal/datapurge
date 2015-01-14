@@ -117,7 +117,7 @@ function checkQueue(newReq, isAdmin) {
           checkQueue(false);    
   	   }, TURN_TIME);
     } else {
-        sendMessageToQueue("Please wait - doctor is in control");
+        sendMessageToQueue("Control Occupied");
     }
 
   } else if (newReq) {
@@ -129,7 +129,7 @@ function checkQueue(newReq, isAdmin) {
       	var sockid = turnQueue[turnQueue.length - 1];
         console.log("new req queue: " + JSON.stringify(turnQueue))
         if (ADMIN_MODE)
-          io.in(sockid).emit('turn-ack', "Please wait - doctor is in control");
+          io.in(sockid).emit('turn-ack', "Control Occupied");
         else  
       	   io.in(sockid).emit('turn-ack', "Estimated wait time less than " + turnQueue.length + " minutes");
       }

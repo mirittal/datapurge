@@ -6,10 +6,10 @@
   
   
   socket.on("my-turn", function(t) {
-      	$("#message").html("THE CONTROL IS YOURS");
+      	$("#message").html("MOVEMENT IS SUBJECT TO LIVESTREAM DELAY");
       	$("#controller").attr("src", dest + "0");	
 		$(".controls, #stop_control").show();
-		
+
 		//$(".user_controls").hide();
 		//window.setTimeout(function() {  turnAllOff();}, 130000)
   });
