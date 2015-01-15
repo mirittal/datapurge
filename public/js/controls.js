@@ -10,12 +10,33 @@
       	$("#message").html("MOVEMENT IS SUBJECT TO LIVESTREAM DELAY");
       	$("#controller").attr("src", dest + "0");	
 		$(".controls, #stop_control").show();
+		$(".timer").TimeCircles({
+			"circle_bg_color": "#0e1216",
+			"fg_width": 0.07,
+			"time": {
+		        "Days": {	          
+		            "show": false
+		        },
+		        "Hours": {
+		            "show": false
+		        },
+		        "Minutes": {
+		            "show": false
+		        },
+		        "Seconds": {
+		            "text": "",
+		            "color": "#1ea806",
+		            "show": true
+		        }
+		    }
+		}); 
 
 		//$(".user_controls").hide();
 		//window.setTimeout(function() {  turnAllOff();}, 130000)
   });
 
   socket.on("lose-turn", function(t) {
+  	  $(".timer").TimeCircles().destroy(); 
       $("#message").html("CONTROL OVER");
       turnAllOff();
   });
@@ -40,6 +61,8 @@
 
 $(function(){
 
+
+	
 	if( $("#admin").length > 0 )
 		isAdmin = true;
 
